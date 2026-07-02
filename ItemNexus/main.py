@@ -1,11 +1,9 @@
-from typing import Union
 from fastapi import FastAPI
-app = FastAPI()
+from crud_DONO import router as dono_router
 
+app = FastAPI(
+    title = "API ITEM NEXUS",
+    version = "0.0.1"
+)
 
-@app.get("/")
-def read_root():
-    return {"msg": "Hello World"}
-@app.get("/itens/{item_id}")
-def read_item(item_id: int, nome: Union[str, None] = None):
-    return {"item_id": item_id, "nome": nome}
+app.include_router(dono_router, prefix="/dono")
