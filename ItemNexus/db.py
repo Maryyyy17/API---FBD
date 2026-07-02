@@ -5,7 +5,7 @@ def get_connection():
         dbname="guilda",
         user="postgres",
         password="",
-        host="localhost"
+        host="localhogist"
         )
 
 cursor = conn.cursor()
