@@ -4,24 +4,15 @@ def get_connection():
     return psycopg2.connect(
         dbname="guilda",
         user="postgres",
-        password="marianesobral123",
+        password="",
         host="localhost"
         )
-import psycopg2
-# Conectar ao banco de dados
-try:
-    conn = psycopg2.connect(
-        dbname='exemplo',
-        user='seu_usuario',
-        password='sua_senha',
-        host='localhost',
-        port='5432'
-        )
-    cursor = conn.cursor()
+
+cursor = conn.cursor()
 
 
 # Criar tabela
-    cursor.execute ("""
+cursor.execute ("""
        CREATE table DONO(
 	id_dono int primary key,
 	tipo varchar (20) not null,
@@ -40,7 +31,7 @@ or
  
     """)
 
-    cursor.execute (""""
+cursor.execute (""""
     create table ITEM_CATALOGO(
 	id_item_catalogo int primary key,
 	nome varchar (30) not null,
@@ -65,7 +56,7 @@ or
                     
                     """)
     
-    cursor.execute ("""
+cursor.execute ("""
         create table RECEITA(
 	id_receita int primary key,
 	nome varchar (30) not null,
@@ -78,7 +69,7 @@ references ITEM_CATALOGO(id_item_catalogo)
 
         """)
 
-    cursor.execute ("""
+cursor.execute ("""
         create table ITEM_INSTANCIA(
 	id_instancia int primary key,
 	status varchar (30) not null,
@@ -97,7 +88,7 @@ references ITEM_CATALOGO(id_item_catalogo)
 );
     """)
 
-    cursor.execute ("""
+cursor.execute ("""
         create table GUILDA(
 	id_dono int primary key,
 	nome varchar (20) not null,
@@ -111,7 +102,7 @@ references ITEM_CATALOGO(id_item_catalogo)
         """)
     
 
-    cursor.execute ("""
+cursor.execute ("""
         create table JOGADOR(
 	id_dono int primary key,
 	nome varchar (20) not null,
@@ -137,7 +128,7 @@ check (cargo in (
         """)
     
 
-    cursor.execute ("""
+cursor.execute ("""
         create table POSSE(
 	id_posse int primary key,
 	data_inicio timestamp not null,
@@ -158,7 +149,7 @@ check (data_fim is null or data_fim > data_inicio)
 );
         """)
 
-    cursor.execute ("""
+cursor.execute ("""
         create table USA(
 	id_receita int not null,
     	id_item_catalogo int not null,
@@ -180,7 +171,7 @@ check (quantidade > 0)
         """)
     
 
-    cursor.execute ("""
+cursor.execute ("""
         create table LEILAO(
 	id_leilao int primary key,
 	preco_inicial numeric (8,2) not null,
@@ -218,7 +209,7 @@ where status = 'ATIVO';
         """)
     
 
-    cursor.execute (""""
+cursor.execute (""""
         create table LANCE(
 	id_lance int primary key,
 	valor numeric (15,2) not null,
@@ -239,26 +230,53 @@ check (valor > 0)
 ); 
                     """)
 
+cursor.execute("""
+	create table ITEM_EVENTO(
+	id_evento int primary key,
+	tipo_evento varchar (30) not null,
+	data_evento timestamp not null,
+	id_instancia int not null,
 
+	foreign key (id_instancia)
+	references ITEM_INSTANCIA(id_instancia),
 
+	constraint recebido_por_evento
+	check (tipo_evento in (
+		'DROP_MONSTRO',
+		'RECOMPENSA_MISSAO',
+		'RECOMPENSA_BAU',
+		'FABRICADO',
+		'EVENTO_ESPECIAL',
+		'TROCA_JOGADOR',
+		'LEILAO',
+		'DOACAO_GUILDA'))
+);
 
+""")
 
+cursor.execute("""
+	create table ENVOLVE(
+	id_fusao int not null,
+	id_instancia int not null,
+	papel varchar (30) not null,
 
+	foreign key (id_fusao)
+	references FUSAO (id_fusao)
+	on delete restrict,
+	
+	foreign key (id_instancia)
+	references ITEM_INSTANCIA (id_instancia)
+	on delete restrict,
 
+	primary key (id_fusao, id_instancia),
 
+	constraint funcao_do_item
+	check (papel in ('INGREDIENTE', 'RESULTADO'))
+);
 
+""")
 
-
-
-
-
-
-
-
-
-
-
-
+#falta a parte do create/replace
 
 
 
@@ -270,6 +288,45 @@ conn.commit()
 except Exception as e:
 conn.rollback()
 print(f'Erro ao executar operações no banco de dados: {e}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Consultar dados
 cursor.execute('SELECT * FROM alunos')
