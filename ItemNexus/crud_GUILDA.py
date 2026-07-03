@@ -14,7 +14,7 @@ async def criar_guilda(gld: Guilda) :
     try:
         cur.execute(
             "INSERT INTO guilda (id_dono, nome, data_criacao) VALUES(%s,%s,%s)",
-            (gld.id_dono, gld.nom, gld.data_criacao )
+            (gld.id_dono, gld.nome, gld.data_criacao )
         )
 
         conn.commit()
@@ -26,7 +26,7 @@ async def criar_guilda(gld: Guilda) :
     finally:
         cur.close()
         conn.close()
-    return {"msg:" "Guilda criado com sucesso"}
+    return {"msg": "Guilda criada com sucesso"}
 
 
 @router.get("/guilda", response_model = List[Guilda])
@@ -48,7 +48,7 @@ async def listar_guilda():
 async def get_guilda(id_dono : int):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id_dono, nome, data_criacao FROM GUILDA WHERE id_dono=%s", (id_dono))
+    cur.execute("SELECT id_dono, nome, data_criacao FROM GUILDA WHERE id_dono=%s", (id_dono,))
     row = cur.fetchone()
     cur.close()
     conn.close()
@@ -93,7 +93,7 @@ async def att_guilda_parcial(id_dono: int, gld: Update_Guilda):
 async def deletar_guilda(id_dono: int):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("DELETE FROM Guilda WHERE id_dono =%s", (id_dono))
+    cur.execute("DELETE FROM Guilda WHERE id_dono =%s", (id_dono,))
     conn.commit()
     cur.close()
     conn.close()

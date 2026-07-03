@@ -14,7 +14,7 @@ async def criar_itemc(jog: Jogador) :
     try:
         cur.execute(
             "INSERT INTO jogador (id_dono, nome, email, id_guilda, cargo) VALUES(%s,%s,%s,%s,%s)",
-            (jog.id_dono, jog.nome, jog.email, jog.id_email, jog.id_guilda )
+            (jog.id_dono, jog.nome, jog.email, jog.id_guilda, jog.cargo)
         )
 
         conn.commit()
@@ -26,10 +26,10 @@ async def criar_itemc(jog: Jogador) :
     finally:
         cur.close()
         conn.close()
-    return {"msg:" "Jogador criado com sucesso"}
+    return {"msg": "Jogador criado com sucesso"}
 
 
-@router.get("/departamento", response_model = List[Jogador])
+@router.get("/jogador", response_model = List[Jogador])
 async def listar_jogador():
     conn = get_connection()
     cur = conn.cursor()
@@ -39,7 +39,7 @@ async def listar_jogador():
     conn.close()
     return [
         Jogador(
-            id_dono = i[0], nome = i[1], email =i[2], id_guilda = i[3], cargo = i[4], cargo = i[5]
+            id_dono = i[0], nome = i[1], email =i[2], id_guilda = i[3], cargo = i[4]
         ) for i in rows
     ]
 
@@ -53,7 +53,7 @@ async def get_jogador(id_dono: int):
     cur.close()
     conn.close()
     if row:
-        return Jogador(id_dono = row[0], nome = row[1], email =row[2], id_guilda = row[3], cargo = row[4], cargo = row[5])
+        return Jogador(id_dono = row[0], nome = row[1], email =row[2], id_guilda = row[3], cargo = row[4])
     raise HTTPException(404, "Jogador não encontrado")
 
 
@@ -62,7 +62,7 @@ async def get_jogador(id_dono: int):
 async def att_jogador_parcial(id_dono: int, jog: Update_Jogador):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id_dono FROM Jogador WHERE id_dono=%s", (id_dono))
+    cur.execute("SELECT id_dono FROM Jogador WHERE id_dono=%s", (id_dono,))
     if not cur.fetchone():
         cur.close()
         conn.close()
