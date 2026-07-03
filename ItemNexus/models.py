@@ -13,7 +13,7 @@ class Dono(BaseModel):
 class Update_Dono(BaseModel):
     tipo: str
     ativo: bool
-    data_inativacao : date
+    data_inativacao : Optional[date]
 
 
 
