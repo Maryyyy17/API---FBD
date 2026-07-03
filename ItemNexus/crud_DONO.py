@@ -26,7 +26,7 @@ async def criar_dono(dn: Dono) :
     finally:
         cur.close()
         conn.close()
-    return {"msg:" "Dono criado com sucesso"}
+    return {"msg": "Dono criado com sucesso"}
 
 
 
@@ -52,7 +52,7 @@ async def get_dono(id_dono: int) :
     cur = conn.cursor()
 
     cur.execute(
-        "SELECT id_dono, tipo, ativo, data_inativacao FROM Dono WHERE id_dono=%s"
+        "SELECT id_dono, tipo, ativo, data_inativacao FROM Dono WHERE id_dono=%s",(id_dono,)
     )
 
     row = cur.fetchone()
@@ -66,13 +66,13 @@ async def get_dono(id_dono: int) :
 
 
 
-@router.get("/dono")
+@router.put("/dono/{id_dono}")
 async def att_dono(id_dono: int, dn: Update_Dono):
     conn = get_connection()
     cur = conn.cursor()
 
     cur.execute(
-        "SELECT id_dono FROM Dono WHERE id_dono = %s, (id_dono) "
+        "SELECT id_dono FROM Dono WHERE id_dono = %s", (id_dono,) 
     )
 
     if not cur.fetchone():
@@ -95,7 +95,7 @@ async def att_dono(id_dono: int, dn: Update_Dono):
     
     try:
         cur.execute(
-            f"UPDATE departamento SET {','.join(fields)} WHERE id_dono=%s", values
+            f"UPDATE dono SET {','.join(fields)} WHERE id_dono=%s", values + [id_dono]
         )
         conn.commit()
 
@@ -117,7 +117,7 @@ async def att_dono(id_dono: int, dn: Update_Dono):
 async def deletar_dono(id_dono: int):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("DELETE FROM DONO WHERE id_dono = %s", (id_dono))
+    cur.execute("DELETE FROM DONO WHERE id_dono = %s", (id_dono,))
     conn.commit()
     cur.close()
     conn.close()

@@ -5,6 +5,6 @@ def get_connection():
         dbname="guilda",
         user="postgres",
         password="",
-        host="localhogist"
+        host="localhost"
         )
 
