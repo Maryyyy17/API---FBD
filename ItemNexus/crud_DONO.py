@@ -61,7 +61,7 @@ async def get_dono(id_dono: int) :
     conn.close()
 
     if row:
-        return Dono(id_dono = i[0], tipo = i[1], ativo = i[2], data_inativacao = i[3])
+        return Dono(id_dono = row[0], tipo = row[1], ativo = row[2], data_inativacao = row[3])
     raise HTTPException(404, f"Dono não encontrado")
 
 

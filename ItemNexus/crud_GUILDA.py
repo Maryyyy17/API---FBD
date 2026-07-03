@@ -53,7 +53,7 @@ async def get_guilda(id_dono : int):
     cur.close()
     conn.close()
     if row:
-        return Guilda(id_dono =i[0], nome =i[1], data_criacao=i[2])
+        return Guilda(id_dono =row[0], nome =row[1], data_criacao=row[2])
     raise HTTPException(404, "Guida não encontrada")
 
 

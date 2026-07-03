@@ -53,7 +53,7 @@ async def get_receita(id : int):
     cur.close()
     conn.close()
     if row:
-        return Receita( id = i[0], nome = i[1], id_resultado = i[2])
+        return Receita( id = row[0], nome = row[1], id_resultado = row[2])
     raise HTTPException (404, "Receita não encontrada")
 
 
