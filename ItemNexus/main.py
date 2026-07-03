@@ -9,7 +9,7 @@ app = FastAPI(
     version = "0.0.1"
 )
 
-app.include_router(dono_router, prefix="/dono")
-app.include_router(receita_router, prefix="/receita")
-app.include_router(guilda_router, prefix="/guilda")
-app.include_router(jogador_router, prefix="/jogador")
+app.include_router(dono_router)
+app.include_router(receita_router)
+app.include_router(guilda_router)
+app.include_router(jogador_router)
