@@ -7,7 +7,7 @@ from typing import List, Optional
 router = APIRouter()
 
 @router.post("/jogador")
-async def criar_itemc(jog: Jogador) :
+async def criar_jogador(jog: Jogador) :
     conn = get_connection()
     cur = conn.cursor()
 

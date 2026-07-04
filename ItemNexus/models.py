@@ -81,3 +81,14 @@ class Update_Jogador (BaseModel):
     email: Optional[str] = None
     id_guilda : Optional[int] = None
     cargo:Optional[str] = None
+
+class RelatorioJogador(BaseModel):
+    id_jogador: int
+    nome_jogador: str
+    email_jogador: str
+    cargo_jogador: str
+    jogador_ativo: bool
+    data_inativacao_jogador: Optional[date] = None
+    id_guilda: Optional[int] = None
+    nome_guilda: Optional[str] = None
+    data_criacao_guilda: Optional[date] = None
