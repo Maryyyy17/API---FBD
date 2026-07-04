@@ -8,7 +8,7 @@ class Dono(BaseModel):
     id_dono: int
     tipo: str
     ativo: bool
-    data_inativacao : date
+    data_inativacao : Optional[date]
 
 class Update_Dono(BaseModel):
     tipo: str
@@ -60,8 +60,8 @@ class Update_II (BaseModel):
 
 class Guilda(BaseModel):
     id_dono: int
-    nome:str
-    data_criacao: date
+    nome: Optional[str]
+    data_criacao: Optional[date]
 
 class Update_Guilda(BaseModel):
     nome:str
@@ -77,7 +77,7 @@ class Jogador(BaseModel):
     cargo: str
 
 class Update_Jogador (BaseModel):
-    nome: str
-    email: str
-    id_guilda : int
-    cargo: str
+    nome: Optional[str] = None
+    email: Optional[str] = None
+    id_guilda : Optional[int] = None
+    cargo:Optional[str] = None
